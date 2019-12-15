@@ -2,6 +2,7 @@ var app = new Vue({
     el: '#app',
     data: {
         size: 600,
+        cvsHeight: 600,
         background: '/res/tp1.jpg',
         texts: [],
         qrCodes: [],
@@ -31,11 +32,13 @@ var app = new Vue({
             this.texts.forEach(t => {
                 t.coord.x = parseInt(t.coord.x * ratio);
                 t.coord.y = parseInt(t.coord.y * ratio);
+                t.size = parseInt(t.size * ratio);
             });
 
             this.qrCodes.forEach(q => {
                 q.coord.x = parseInt(q.coord.x * ratio);
                 q.coord.y = parseInt(q.coord.y * ratio);
+                q.size = parseInt(q.size * ratio);
             })
         }
     },
@@ -195,6 +198,7 @@ var app = new Vue({
                 if (resize) {
                     this.cvs.width = width;
                     this.cvs.height = height;
+                    this.cvsHeight = height;
                 }
             
                 this.ctx.drawImage(image, x, y, width, height);

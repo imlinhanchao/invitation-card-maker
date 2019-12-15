@@ -76,7 +76,7 @@
                                 <input type="number" class="text-coord" id="text-coord-x" v-model="text.coord.x">
                                 <br>
                                 <label for="text-coord-y">Y</label>
-                                <input type="range" v-model="text.coord.y" min="0" :max="size">
+                                <input type="range" v-model="text.coord.y" min="0" :max="cvsHeight">
                                 <input type="number" class="text-coord" id="text-coord-y" v-model="text.coord.y">
                             </span>
                         </p>
@@ -122,7 +122,7 @@
                                 <input type="number" class="qr-coord" id="qr-coord-x" v-model="qrCode.coord.x">
                                 <br>
                                 <label for="qr-coord-y">Y</label>
-                                <input type="range" v-model="qrCode.coord.y" min="0" :max="size">
+                                <input type="range" v-model="qrCode.coord.y" min="0" :max="cvsHeight">
                                 <input type="number" class="qr-coord" id="qr-coord-y" v-model="qrCode.coord.y">
                             </span>
                         </p>
