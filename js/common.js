@@ -38,11 +38,7 @@ var configs = [
                 },
                 color: '#867160',
                 align: 'center',
-                variable: [
-                    [
-                        '魏华'
-                    ]
-                ]
+                variable: true
             },
             {
                 content: '李国强',
@@ -54,7 +50,7 @@ var configs = [
                 },
                 color: '#000',
                 align: 'right',
-                variable: null
+                variable: false
             },
             {
                 content: '韩梅梅',
@@ -66,7 +62,7 @@ var configs = [
                 },
                 color: '#000',
                 align: 'left',
-                variable: null
+                variable: false
             },
             {
                 content: '扫码查看位置与登记来访',
@@ -77,7 +73,8 @@ var configs = [
                     y: 1000
                 },
                 color: '#867160',
-                align: 'center'
+                align: 'center',
+                variable: false
             },
             {
                 content: '2022年5月3号 12:00',
@@ -99,7 +96,8 @@ var configs = [
                     y: 800
                 },
                 color: '#f25459',
-                align: 'center'
+                align: 'center',
+                variable: false
             }
         ],
         qrCodes: [
@@ -114,13 +112,11 @@ var configs = [
                     x: 250,
                     y: 870
                 },
-                variable: [
-                    [
-                        '魏华',
-                        '19:00'
-                    ]
-                ]
+                variable: true
             }
+        ],
+        variables: [
+            [ '魏华', '19:00' ]
         ]
     }
 ]

@@ -39,6 +39,7 @@
                     <ul class="tab-list">
                         <li class="tab-item" :class="{current: currentTab == 0}" @click="currentTab=0">Texts({{texts.length}})</li>
                         <li class="tab-item" :class="{current: currentTab == 1}" @click="currentTab=1">QRCodes({{qrCodes.length}})</li>
+                        <li class="tab-item" :class="{current: currentTab == 2}" @click="currentTab=2">Variable({{(variables[0] || []).length}}, {{variables.length}})</li>
                     </ul>
                 </div>
                 <div class="texts" v-show="currentTab == 0">
@@ -86,13 +87,9 @@
                             <span class="text-color" :style="{ background: text.color }" @click="$refs['text-color'].click()"></span>
                         </p>
                         <p>
-                            <label class="form-label" :class="{'variable-label': text.variable != null}" for="text-variable">Variable</label>
+                            <label class="form-label" for="text-variable">Variable</label>
                             <span style="display: inline-block;">
                                 <input type="checkbox" id="text-variable" :checked="text.variable != null" @click="text.variable = text.variable == null ? [] : null ">    
-                                <span v-if="text.variable != null" >
-                                    <br>
-                                    <textarea name="" id="" cols="30" rows="10" v-model="textVar"></textarea>
-                                </span>
                             </span>
                         </p>
                     </form>
@@ -142,13 +139,9 @@
                             </span class="form-coord">
                         </p>
                         <p>
-                            <label class="form-label" :class="{'variable-label': qrCode.variable != null}" for="qr-variable">Variable</label>
+                            <label class="form-label" for="qr-variable">Variable</label>
                             <span style="display: inline-block;">
                                 <input type="checkbox" id="qr-variable" :checked="qrCode.variable != null" @click="qrCode.variable = qrCode.variable == null ? [] : null ">    
-                                <span v-if="qrCode.variable != null" >
-                                    <br>
-                                    <textarea name="" id="" cols="30" rows="10" v-model="qrVar"></textarea>
-                                </span>
                             </span>
                         </p>
                         <p>
@@ -156,6 +149,11 @@
                             <span>{{qrResult}}</span>
                         </p>
                     </form>
+                </div>
+                <div class="variables" v-show="currentTab == 2">
+                    <p>
+                        <textarea style="width: 100%;" cols="30" rows="50" v-model="vars"></textarea>
+                    </p>
                 </div>
             </section>
         </article>

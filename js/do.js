@@ -5,6 +5,7 @@ var app = new Vue({
         background: '/res/tp1.jpg',
         texts: [],
         qrCodes: [],
+        variables: [],
         currentText: 0,
         currentQr: 0,
         currentTab: 0
@@ -21,6 +22,9 @@ var app = new Vue({
                 this.refresh()
             },
             deep: true
+        },
+        variables() {
+            this.refresh()
         },
         size (n, o) {
             let ratio = n / o;
@@ -49,22 +53,16 @@ var app = new Vue({
             return this.qrCodes[this.currentQr];
         },
         qrResult() {
-            return this.qrCode.content.format.apply(this.qrCode.content, (this.qrCode.variable || [['']])[0].map(encodeURIComponent))
+            return this.qrCode.content.format.apply(this.qrCode.content, (this.variables || [['']])[0].map(encodeURIComponent))
         },
-        textVar: {
+        vars: {
             get() {
-                return (this.text.variable || []).map(v => v.join(',')).join('\n') + '\n';
+                return (this.variables || []).map(v => v.join(',')).join('\n');
             },
             set(val) {
-                this.text.variable = val.trim().split('\n').map(v => v.split(','));
-            }
-        },
-        qrVar: {
-            get() {
-                return (this.qrCode.variable || []).map(v => v.join(',')).join('\n') + '\n';
-            },
-            set(val) {
-                this.qrCode.variable = val.trim().split('\n').map(v => v.split(','));
+                let vars = val.trim().split('\n').map(v => v.replace(/^,|,$/g, '').split(','));
+                if (this.vars != (vars || []).map(v => v.join(',')).join('\n'))
+                    this.variables = vars;
             }
         }
     },
@@ -77,7 +75,7 @@ var app = new Vue({
                 coord: { x: 0, y: 0 },
                 color: '#000',
                 align: 'left',
-                variable: null
+                variable: false
             });
             this.currentText = this.texts.length - 1
         },
@@ -87,7 +85,7 @@ var app = new Vue({
                 color: '#000',
                 size: 100,
                 coord: { x: 0, y: 0 },
-                variable: null,
+                variable: false,
                 color: {
                     foreground:'#000', 
                     background:'#fff'
@@ -96,7 +94,6 @@ var app = new Vue({
             this.currentQr = this.qrCodes.length - 1
         },
         downloadAll() {
-            var variableCount = Math.max.apply(Math, this.texts.map(t => (t.variable || []).length))
             var download = (index) => {
                 this.draw(index, (i) => {
                     if (i < 0) return alert('All Downloaded');
@@ -106,7 +103,7 @@ var app = new Vue({
                     }, 1000);
                 })
             }
-            download(variableCount - 1)
+            download(this.variables.length - 1)
         },
         exportConfig() {
             var config = {
@@ -148,6 +145,7 @@ var app = new Vue({
             this.size = config.size;
             this.texts = config.texts;
             this.qrCodes = config.qrCodes;
+            this.variables = config.variables;
             this.currentText = 0;
             this.currentQr = 0;
             this.refresh();
@@ -168,7 +166,7 @@ var app = new Vue({
                 for (let i = 0; i < this.texts.length; i++) {
                     let text = Object.assign({}, this.texts[i]);
                     if (text.variable) {
-                        text.content = text.content.format.apply(text.content, (text.variable[index] || []));
+                        text.content = text.content.format.apply(text.content, (this.variables[index] || []));
                     }
                     this.drawText(text);
                 }
@@ -177,7 +175,7 @@ var app = new Vue({
                         if (this.qrCodes.length <= i) return call && call(index);
                         let qrCode = Object.assign({}, this.qrCodes[i]);
                         if (qrCode.variable) {
-                            qrCode.content = qrCode.content.format.apply(qrCode.content, (qrCode.variable[index] || []).map(encodeURIComponent));
+                            qrCode.content = qrCode.content.format.apply(qrCode.content, (this.variables[index] || []).map(encodeURIComponent));
                         }    
                         this.drawQr(qrCode, () => {
                             drawQr(i + 1);

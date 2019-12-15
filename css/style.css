@@ -95,9 +95,9 @@ textarea {
 
 .tab-item {
     display: inline-block;
-    font-size: 2em;
+    font-size: 1.3em;
     color: #CDCECF;
-    padding: .5em;
+    padding: 1em .5em;
     cursor: pointer;
     position: relative;
     text-align: center;
