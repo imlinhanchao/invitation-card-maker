@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Invitation Card Maker</title>
+    <script src="https://use.fontawesome.com/6364f396e2.js"></script>
+    <link href="https://fonts.loli.net/css?family=Kaushan+Script|Ma+Shan+Zheng|ZCOOL+XiaoWei|Noto+Sans+SC&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="js/qr.js"></script>
+    <script src="js/common.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app">
+        <header>
+            <h1>Invitation Card Maker</h1>
+        </header>
+        <article class="content">
+            <section class="preview">
+                <canvas ref="cvs" id="cvs" :style="{'max-width': size + 'px'}"></canvas>
+            </section>
+            <section class="setting">
+                <div class="others">
+                    <p>
+                        <label class="form-label" style="width: auto;" for="text-content">Size</label>
+                        <input type="number" class="img-size" v-model="size">                        
+                        <button class="btn" @click="$refs['img'].click()" title="Upload a new Picture"><i class="fa fa-picture-o" aria-hidden="true"></i></button>
+                        <button class="btn" title="Download All Picture from Variable" @click="downloadAll"><i class="fa fa-download" aria-hidden="true"></i></button>
+                        <button class="btn" @click="$refs['cfg'].click()" title="Import Config"><i class="fa fa-sign-in" aria-hidden="true"></i></button>
+                        <button class="btn" title="Export Config" @click="exportConfig"><i class="fa fa-sign-out" aria-hidden="true"></i></button>
+                        <input type="file" style="width: 30%" ref="cfg" @change="changeConfig" v-show="false">
+                        <input type="file" style="width: 30%" ref="img" @change="changeImg" v-show="false">
+                    </p>
+                </div>
+                <div class="texts">
+                    <h2>Texts</h2>
+                    <p>
+                        <ul class="draw-list">
+                            <li class="draw-item" v-for="(t, i) in texts" :class="{current: currentText == i}" @click="currentText = i">
+                                {{t.content}}&nbsp;&nbsp;<i class="fa fa-close" @click.stop="removeText(i)"></i>
+                            </li>
+                            <li class="draw-item" @click="addText">
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                            </li>
+                        </ul>
+                    </p>
+                    <form class="form" v-if="text">
+                        <p>
+                            <label class="form-label" for="text-content">Content</label>
+                            <input type="text" id="text-content" v-model="text.content">
+                        </p>
+                        <p>
+                            <label class="form-label" for="text-font">Font</label>
+                            <input type="text" id="text-font" v-model="text.font"> 
+                            <input type="number" id="text-size" v-model="text.size">
+                        </p>
+                        <p>
+                            <label class="form-label coord-label" for="text-coord-x">Location</label>
+                            <span class="form-coord">
+                                <span class="text-align">
+                                    <i :class="{current: text.align == 'left'}" class="fa fa-align-left" aria-hidden="true" @click="text.align = 'left'"></i>
+                                    <i :class="{current: text.align == 'center'}"class="fa fa-align-center" aria-hidden="true" @click="text.align = 'center'"></i>
+                                    <i :class="{current: text.align == 'right'}"class="fa fa-align-right" aria-hidden="true" @click="text.align = 'right'"></i>
+                                </span>
+                                <input type="range" v-model="text.coord.x" min="0" :max="size">
+                                <label for="text-coord-x">X</label>
+                                <input type="number" class="text-coord" id="text-coord-x" v-model="text.coord.x">
+                                <br>
+                                <input type="range" v-model="text.coord.y" min="0" :max="size">
+                                <label for="text-coord-y">Y</label>
+                                <input type="number" class="text-coord" id="text-coord-x" v-model="text.coord.y">
+                            </span>
+                        </p>
+                        <p>
+                            <label class="form-label" for="text-color">Color</label>
+                            <input ref="text-color" v-show="false" type="color" v-model="text.color">
+                            <input type="text" id="text-color" v-model="text.color">
+                            <span class="text-color" :style="{ background: text.color }" @click="$refs['text-color'].click()"></span>
+                        </p>
+                        <p>
+                            <label class="form-label" :class="{'variable-label': text.variable != null}" for="text-variable">Variable</label>
+                            <span style="display: inline-block;">
+                                <input type="checkbox" id="text-variable" :checked="text.variable != null" @click="text.variable = text.variable == null ? [] : null ">    
+                                <span v-if="text.variable != null" >
+                                    <br>
+                                    <textarea name="" id="" cols="30" rows="10" v-model="textVar"></textarea>
+                                </span>
+                            </span>
+                        </p>
+                    </form>
+                </div>
+                <div class="qrs">
+                    <h2>QR Code</h2>
+                    <p>
+                        <ul class="draw-list">
+                            <li class="draw-item" v-for="(q, i) in qrCodes" :class="{current: currentQr == i}" @click="currentQr = i">
+                                {{q.content}}&nbsp;&nbsp;<i class="fa fa-close" @click.stop="removeQr(i)"></i>
+                            </li>
+                            <li class="draw-item" @click="addQr">
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                            </li>
+                        </ul>
+                    </p>
+                    <form class="form" v-if="qrCode">
+                        <p>
+                            <label class="form-label" for="qr-content">Content</label>
+                            <input type="text" id="qr-content" v-model="qrCode.content" style="width: 29em">
+                        </p>
+                        <p>
+                            <label class="form-label" for="qr-font">Size</label>
+                            <input type="number" id="qr-size" v-model="qrCode.size">
+                        </p>
+                        <p>
+                            <label class="form-label coord-label" for="qr-coord-x">Location</label>
+                            <span class="form-coord">
+                                <input type="range" v-model="qrCode.coord.x" min="0" :max="size">
+                                <label for="qr-coord-x">X</label>
+                                <input type="number" class="qr-coord" id="qr-coord-x" v-model="qrCode.coord.x">
+                                <br>
+                                <input type="range" v-model="qrCode.coord.y" min="0" :max="size">
+                                <label for="qr-coord-y">Y</label>
+                                <input type="number" class="qr-coord" id="qr-coord-x" v-model="qrCode.coord.y">
+                            </span>
+                        </p>
+                        <p>
+                            <label class="form-label color-label" for="qr-color-fg">Color</label>
+                            <span class="form-color">
+                                <input ref="qr-color-fg" v-show="false" type="color" v-model="qrCode.color.foreground">
+                                <input type="text" id="qr-color-fg" v-model="qrCode.color.foreground">
+                                <span class="qr-color" :style="{ background: qrCode.color.foreground }" @click="$refs['qr-color-fg'].click()"></span>
+                                <br>
+                                <input ref="qr-color-bg" v-show="false" type="color" v-model="qrCode.color.background">
+                                <input type="text" id="qr-color-bg" v-model="qrCode.color.background">
+                                <span class="qr-color" :style="{ background: qrCode.color.background }" @click="$refs['qr-color-bg'].click()"></span>
+                            </span class="form-coord">
+                        </p>
+                        <p>
+                            <label class="form-label" :class="{'variable-label': qrCode.variable != null}" for="qr-variable">Variable</label>
+                            <span style="display: inline-block;">
+                                <input type="checkbox" id="qr-variable" :checked="qrCode.variable != null" @click="qrCode.variable = qrCode.variable == null ? [] : null ">    
+                                <span v-if="qrCode.variable != null" >
+                                    <br>
+                                    <textarea name="" id="" cols="30" rows="10" v-model="qrVar"></textarea>
+                                </span>
+                            </span>
+                        </p>
+                        <p>
+                            <label class="form-label">Result</label>
+                            <span>{{qrResult}}</span>
+                        </p>
+                    </form>
+                </div>
+            </section>
+        </article>
+        <footer>
+            
+        </footer>
+    </div>
+    <script src="js/do.js"></script>
+</body>
+</html>
