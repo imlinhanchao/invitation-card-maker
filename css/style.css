@@ -50,6 +50,14 @@ input[type=color] {
     overflow: hidden;
 }
 
+textarea {
+    padding: .5em;
+}
+
+:focus {
+    outline: none;
+}
+
 .content {
     display: flex;
     margin: auto;
@@ -64,6 +72,7 @@ input[type=color] {
     padding: 0 1em;
     text-align: center;
 }
+
 .preview canvas {
     width: 100%;
     box-shadow: 2px 2px 10px 5px #CCC;
@@ -73,17 +82,43 @@ input[type=color] {
     padding-left: 1.5em;
 }
 
-.setting h2 {
-    font-size: 3em;
+.refresh-btn:active {
+    -webkit-animation: fa-spin .4s infinite linear;
+    animation: fa-spin .4s infinite linear;
+}
+
+.tab-list {
+    border-top: 2px solid #000;
+    list-style: none;
+    padding: 0;
+}
+
+.tab-item {
+    display: inline-block;
+    font-size: 2em;
+    color: #CDCECF;
+    padding: .5em;
+    cursor: pointer;
+    position: relative;
+    text-align: center;
+}
+
+.tab-item.current {
     color: #795548;
+    font-weight: bold;
+}
+
+.tab-item.current::after {
+    content: "\f0d7";
+    font: normal normal normal 20px FontAwesome;
+    position: absolute;
+    bottom: 0;
+    color: inherit;
+    left: 50%;
 }
 
 .others {
     margin: 1em 0;
-}
-
-.texts, .qrs {
-    border-top: 2px solid #000;
 }
 
 .btn {

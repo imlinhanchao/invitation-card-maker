@@ -30,12 +30,18 @@
                         <button class="btn" title="Download All Picture from Variable" @click="downloadAll"><i class="fa fa-download" aria-hidden="true"></i></button>
                         <button class="btn" @click="$refs['cfg'].click()" title="Import Config"><i class="fa fa-sign-in" aria-hidden="true"></i></button>
                         <button class="btn" title="Export Config" @click="exportConfig"><i class="fa fa-sign-out" aria-hidden="true"></i></button>
+                        <button class="btn refresh-btn" title="Refresh Image" @click="refresh"><i class="fa fa-refresh" aria-hidden="true"></i></button class="btn" title="Export Config">
                         <input type="file" style="width: 30%" ref="cfg" @change="changeConfig" v-show="false">
                         <input type="file" style="width: 30%" ref="img" @change="changeImg" v-show="false">
                     </p>
                 </div>
-                <div class="texts">
-                    <h2>Texts</h2>
+                <div class="tab">
+                    <ul class="tab-list">
+                        <li class="tab-item" :class="{current: currentTab == 0}" @click="currentTab=0">Texts({{texts.length}})</li>
+                        <li class="tab-item" :class="{current: currentTab == 1}" @click="currentTab=1">QRCodes({{qrCodes.length}})</li>
+                    </ul>
+                </div>
+                <div class="texts" v-show="currentTab == 0">
                     <p>
                         <ul class="draw-list">
                             <li class="draw-item" v-for="(t, i) in texts" :class="{current: currentText == i}" @click="currentText = i">
@@ -64,12 +70,12 @@
                                     <i :class="{current: text.align == 'center'}"class="fa fa-align-center" aria-hidden="true" @click="text.align = 'center'"></i>
                                     <i :class="{current: text.align == 'right'}"class="fa fa-align-right" aria-hidden="true" @click="text.align = 'right'"></i>
                                 </span>
-                                <input type="range" v-model="text.coord.x" min="0" :max="size">
                                 <label for="text-coord-x">X</label>
+                                <input type="range" v-model="text.coord.x" min="0" :max="size">
                                 <input type="number" class="text-coord" id="text-coord-x" v-model="text.coord.x">
                                 <br>
-                                <input type="range" v-model="text.coord.y" min="0" :max="size">
                                 <label for="text-coord-y">Y</label>
+                                <input type="range" v-model="text.coord.y" min="0" :max="size">
                                 <input type="number" class="text-coord" id="text-coord-x" v-model="text.coord.y">
                             </span>
                         </p>
@@ -91,8 +97,7 @@
                         </p>
                     </form>
                 </div>
-                <div class="qrs">
-                    <h2>QR Code</h2>
+                <div class="qrs" v-show="currentTab == 1">
                     <p>
                         <ul class="draw-list">
                             <li class="draw-item" v-for="(q, i) in qrCodes" :class="{current: currentQr == i}" @click="currentQr = i">
@@ -115,12 +120,12 @@
                         <p>
                             <label class="form-label coord-label" for="qr-coord-x">Location</label>
                             <span class="form-coord">
-                                <input type="range" v-model="qrCode.coord.x" min="0" :max="size">
                                 <label for="qr-coord-x">X</label>
+                                <input type="range" v-model="qrCode.coord.x" min="0" :max="size">
                                 <input type="number" class="qr-coord" id="qr-coord-x" v-model="qrCode.coord.x">
                                 <br>
-                                <input type="range" v-model="qrCode.coord.y" min="0" :max="size">
                                 <label for="qr-coord-y">Y</label>
+                                <input type="range" v-model="qrCode.coord.y" min="0" :max="size">
                                 <input type="number" class="qr-coord" id="qr-coord-x" v-model="qrCode.coord.y">
                             </span>
                         </p>
