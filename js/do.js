@@ -24,8 +24,11 @@ var app = new Vue({
             },
             deep: true
         },
-        variables() {
-            this.refresh()
+        variables: {
+            handler () {
+                this.refresh()
+            },
+            deep: true
         },
         size (n, o) {
             let ratio = n / o;
