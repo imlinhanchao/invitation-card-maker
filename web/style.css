@@ -1,0 +1,169 @@
+html {
+    background: #fef5e4 url(repeat.jpg) repeat-x;
+    background-size: 100%;
+}
+body {
+    padding: 0;
+    font: 400 1em/1.8 'Noto Sans SC', PingFang SC, Lantinghei SC, Microsoft Yahei, Roboto, Helvetica Neue, Helvetica, Arial, sans-serif;
+    max-width: 970px;
+    margin: 0;
+    background: #FFF url(bg.jpg) no-repeat;
+    background-size: 100%;
+    min-height: 100vh;
+}
+a {
+    text-decoration: none;
+    color: inherit;
+}
+.header {
+    margin: 0;
+}
+.header img{
+    width: 100%;
+}
+.title {
+    font-size: 3em;
+    text-align: center;
+    margin: 0;
+}
+.desc {
+    font-size: 2em;
+    text-align: center;
+    color: #867160;
+    margin: .3em 0;
+}
+article {
+    padding: 0 14%;
+}
+.item-list {
+    list-style: none;
+    padding: 0;
+    border-top: 2px dashed #f19b9a;
+}
+.item-list li {
+    display: inline-block;
+    width: 32%;
+    text-align: center;
+    color: #867160;
+    position: relative;
+}
+
+.item-list li.current{
+    color: #f09a99;
+}
+.item-list li.current::after {
+    content: "\f0d7";
+    font: normal normal normal 20px FontAwesome;
+    position: absolute;
+    top: 20px;
+    color: inherit;
+    left: 50%;
+}
+.tab {
+    display: none;
+    font-size: 1em;
+}
+.curtab {
+    display: block;
+}
+.btn-common {
+    border-radius: 2em;
+    font-size: 2em;
+    font-weight: 600;
+    cursor: pointer;
+    padding: .2em 1em;
+    background: hsl(349, 55%, 90%);
+    color: #fff;
+    border: 0;
+}
+.btn-common:active {
+    margin: .1em;
+    padding: .1em .9em;
+    height: 2.3em!important;
+}
+.btn-common:hover {
+    filter: contrast(150%);
+}
+
+#visit {
+    padding: 4em 1em;
+    text-align: center;
+}
+
+#visit-count {
+    width: 3em;
+    border: 0;
+    border-bottom: 1px dashed #f19b9a;
+    font-size: 1.2em;
+    text-align: center;
+    vertical-align: baseline;
+    color: #f09a99;
+}
+
+label.switch{
+    display:block;
+    vertical-align: middle;
+  }
+  label.switch, input, select{
+    vertical-align: middle;
+  }
+  .mui-switch {
+    width: 52px;
+    height: 31px;
+    position: relative;
+    border: 1px solid #dfdfdf;
+    background-color: #fdfdfd;
+    box-shadow: #dfdfdf 0 0 0 0 inset;
+    border-radius: 20px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    background-clip: content-box;
+    display: inline-block;
+    -webkit-appearance: none;
+    user-select: none;
+    outline: none; }
+    .mui-switch:before {
+      content: '';
+      width: 29px;
+      height: 29px;
+      position: absolute;
+      top: 0px;
+      left: 0;
+      border-radius: 20px;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+      background-color: #fff;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4); }
+    .mui-switch:checked {
+      border-color: #eabab5;
+      box-shadow: #f4d6dd 0 0 0 16px inset;
+      background-color: #f09b99;
+      }
+      .mui-switch:checked:before {
+        left: 21px; }
+    .mui-switch.mui-switch-animbg {
+      transition: background-color ease 0.4s; }
+      .mui-switch.mui-switch-animbg:before {
+        transition: left 0.3s; }
+      .mui-switch.mui-switch-animbg:checked {
+        box-shadow: #dfdfdf 0 0 0 0 inset;
+        background-color: #64bd63;
+        transition: border-color 0.4s, background-color ease 0.4s; }
+        .mui-switch.mui-switch-animbg:checked:before {
+          transition: left 0.3s; }
+    .mui-switch.mui-switch-anim {
+      transition: border cubic-bezier(0, 0, 0, 1) 0.4s, box-shadow cubic-bezier(0, 0, 0, 1) 0.4s; }
+      .mui-switch.mui-switch-anim:before {
+        transition: left 0.3s; }
+      .mui-switch.mui-switch-anim:checked {
+        box-shadow: #64bd63 0 0 0 16px inset;
+        background-color: #64bd63;
+        transition: border ease 0.4s, box-shadow ease 0.4s, background-color ease 1.2s; }
+        .mui-switch.mui-switch-anim:checked:before {
+          transition: left 0.3s; }
+   
+  /*# sourceMappingURL=mui-switch.css.map */
