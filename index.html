@@ -25,7 +25,7 @@
                 <div class="others">
                     <p>
                         <label class="form-label" style="width: auto;" for="text-content">Size</label>
-                        <input type="number" class="img-size" v-model="size">                        
+                        <input type="number" ref="size" class="img-size" :value="size" @change="size=$refs['size'].value" @keyup.13="size=$refs['size'].value">                        
                         <button class="btn" @click="$refs['img'].click()" title="Upload a new Picture"><i class="fa fa-picture-o" aria-hidden="true"></i></button>
                         <button class="btn" title="Download All Picture from Variable" @click="downloadAll"><i class="fa fa-download" aria-hidden="true"></i></button>
                         <button class="btn" @click="$refs['cfg'].click()" title="Import Config"><i class="fa fa-sign-in" aria-hidden="true"></i></button>
