@@ -89,7 +89,7 @@
                         <p>
                             <label class="form-label" for="text-variable">Variable</label>
                             <span style="display: inline-block;">
-                                <input type="checkbox" id="text-variable" :checked="text.variable != null" @click="text.variable = text.variable == null ? [] : null ">    
+                                <input type="checkbox" id="text-variable" v-model="text.variable">    
                             </span>
                         </p>
                     </form>
@@ -141,7 +141,7 @@
                         <p>
                             <label class="form-label" for="qr-variable">Variable</label>
                             <span style="display: inline-block;">
-                                <input type="checkbox" id="qr-variable" :checked="qrCode.variable != null" @click="qrCode.variable = qrCode.variable == null ? [] : null ">    
+                                <input type="checkbox" id="qr-variable" v-model="qrCode.variable">    
                             </span>
                         </p>
                         <p>
