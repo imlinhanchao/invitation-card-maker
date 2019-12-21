@@ -3,10 +3,11 @@ var app = new Vue({
     data: {
         size: 600,
         cvsHeight: 600,
-        background: '/res/tp1.jpg',
+        images: [],
         texts: [],
         qrCodes: [],
         variables: [],
+        currentImage: 0,
         currentText: 0,
         currentQr: 0,
         currentTab: 0
@@ -55,6 +56,9 @@ var app = new Vue({
         text() {
             return this.texts[this.currentText];
         },
+        image() {
+            return this.images[this.currentImage];
+        },
         qrCode() {
             return this.qrCodes[this.currentQr];
         },
@@ -73,6 +77,16 @@ var app = new Vue({
         }
     },
     methods: {
+        addImage() {
+            this.images.push({
+                content: '',
+                size: { width: 0 }, 
+                coord: { x: 0, y: 0 },
+                background: null,
+                variable: false
+            });
+            this.currentImage = this.images.length - 1
+        },
         addText() {
             this.texts.push({
                 content: 'text node ' + this.texts.length,
@@ -114,22 +128,25 @@ var app = new Vue({
         exportConfig() {
             var config = {
                 size: this.size,
-                background: this.background,
+                images: this.images.map(t => Object.assign({}, t)),
                 texts: this.texts.map(t => Object.assign({}, t)),
                 qrCodes: this.qrCodes.map(q => Object.assign({}, q))
             }
-            var cvs = document.createElement('canvas');
-            var cxt = cvs.getContext('2d');
-            var image = new Image;
-            image.src = this.background;
-            image.onload = () => {
-                cvs.width = image.width;
-                cvs.height = image.height;
-                cxt.drawImage(image, 0, 0, image.width, image.height);
-                config.background = cvs.toDataURL();
-                var blob = new Blob([JSON.stringify(config, null, 4)]);
-                this.downloadFile('config.json', URL.createObjectURL(blob))
-            }
+            config.images.forEach((m, i) => {
+                if (m.variable) return;
+                var cvs = document.createElement('canvas');
+                var cxt = cvs.getContext('2d');
+                var image = new Image;
+                image.src = m.content;
+                image.onload = () => {
+                    cvs.width = image.width;
+                    cvs.height = image.height;
+                    cxt.drawImage(image, 0, 0, image.width, image.height);
+                    m.content = cvs.toDataURL();
+                    var blob = new Blob([JSON.stringify(config, null, 4)]);
+                    if(i + 1 == config.images.length) this.downloadFile('config.json', URL.createObjectURL(blob))
+                }
+            })
         },
         changeImg() {
             if(this.$refs['img'].files.length == 0) return
@@ -147,8 +164,8 @@ var app = new Vue({
             this.$refs['cfg'].value = '';
         },
         loadConfig(config) {
-            this.background = config.background;
             this.size = config.size;
+            this.images = config.images;
             this.texts = config.texts;
             this.qrCodes = config.qrCodes;
             this.variables = config.variables;
@@ -168,7 +185,7 @@ var app = new Vue({
             this.draw(0);
         },
         draw(index, call) {
-            this.drawImg(this.background,  () => {
+            let drawImgDone = () => {
                 for (let i = 0; i < this.texts.length; i++) {
                     let text = Object.assign({}, this.texts[i]);
                     if (text.variable) {
@@ -189,22 +206,52 @@ var app = new Vue({
                     }
                     drawQr(0);
                 }
-            }, 0, 0, this.size);
+            };
+            let drawImgs = (i) => {
+                if (this.images.length <= i) return drawImgDone();
+                let img = Object.assign({}, this.images[i]);
+                if (img.content == '') return drawImgs(i + 1);
+                if (img.variable) {
+                    img.content = img.content.format.apply(img.content, (this.variables[index] || []));
+                }    
+                this.drawImg(img, () => {
+                    drawImgs(i + 1);
+                });
+            };
+            drawImgs(0);
         },
-        drawImg(img, call, x=0, y=0, size=400, resize=true){
+        drawImg({ content, coord={ x:0, y:0 }, size={ width:400, height:null }, resize=false, background=null }, call){
             var image = new Image;
-            image.src = img;
+            image.src = content;
             image.onload =  () => {
-                var radio = size / image.width;
-                var width = size; //image.width;
-                var height = image.height * radio;
+                var radio = 0;
+                var w = image.width;
+                var h = image.height;
+
+                if (size.height === undefined) radio = size.width / image.width
+                else if (size.width === undefined) radio = size.height / image.height
+                else {
+                    w = size.width;
+                    h = size.height;
+                }
+
+                if (radio > 0) {
+                    w *= radio;
+                    h *= radio;
+                }
+
                 if (resize) {
-                    this.cvs.width = width;
-                    this.cvs.height = height;
-                    this.cvsHeight = height;
+                    this.cvs.width = w;
+                    this.cvs.height = h;
+                    this.cvsHeight = h;
+                }
+
+                if (background) {
+                    this.ctx.fillStyle = background;
+                    this.ctx.fillRect(coord.x, coord.y, w, h);
                 }
             
-                this.ctx.drawImage(image, x, y, width, height);
+                this.ctx.drawImage(image, coord.x, coord.y, w, h);
                 if (call) call();
             }
         },

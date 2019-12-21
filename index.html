@@ -41,8 +41,9 @@
                 <div class="tab">
                     <ul class="tab-list">
                         <li class="tab-item" :class="{current: currentTab == 0}" @click="currentTab=0">Texts({{texts.length}})</li>
-                        <li class="tab-item" :class="{current: currentTab == 1}" @click="currentTab=1">QRCodes({{qrCodes.length}})</li>
-                        <li class="tab-item" :class="{current: currentTab == 2}" @click="currentTab=2">Variable({{(variables[0] || []).length}}, {{variables.length}})</li>
+                        <li class="tab-item" :class="{current: currentTab == 1}" @click="currentTab=1">Image({{images.length}})</li>
+                        <li class="tab-item" :class="{current: currentTab == 2}" @click="currentTab=2">QRCodes({{qrCodes.length}})</li>
+                        <li class="tab-item" :class="{current: currentTab == 3}" @click="currentTab=3">Variable({{(variables[0] || []).length}}, {{variables.length}})</li>
                     </ul>
                 </div>
                 <div class="texts" v-show="currentTab == 0">
@@ -97,7 +98,21 @@
                         </p>
                     </form>
                 </div>
-                <div class="qrs" v-show="currentTab == 1">
+                <div class="images" v-show="currentTab == 1">
+                    <p>
+                        <ul class="draw-list">
+                            <li class="draw-item" v-for="(t, i) in images" :class="{current: currentImage == i}" @click="currentImage = i">
+                                <img :alt="t.content" :title="t.content" :src="t.variable ? t.content.format.apply(t.content, (this.variables || [['']])[0]) : t.content">
+                                <i class="fa fa-close" @click.stop="removeText(i)"></i>
+                            </li>
+                            <li class="draw-item" @click="addText">
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                            </li>
+                        </ul>
+                    </p>
+
+                </div>
+                <div class="qrs" v-show="currentTab == 2">
                     <p>
                         <ul class="draw-list">
                             <li class="draw-item" v-for="(q, i) in qrCodes" :class="{current: currentQr == i}" @click="currentQr = i">
@@ -139,7 +154,7 @@
                                 <input ref="qr-color-bg" v-show="false" type="color" v-model="qrCode.color.background">
                                 <input type="text" id="qr-color-bg" v-model="qrCode.color.background">
                                 <span class="qr-color" :style="{ background: qrCode.color.background }" @click="$refs['qr-color-bg'].click()"></span>
-                            </span class="form-coord">
+                            </span>
                         </p>
                         <p>
                             <label class="form-label" for="qr-variable">Variable</label>
@@ -153,7 +168,7 @@
                         </p>
                     </form>
                 </div>
-                <div class="variables" v-show="currentTab == 2">
+                <div class="variables" v-show="currentTab == 3">
                     <p>
                         <textarea style="width: 100%;" cols="30" rows="50" v-model="vars"></textarea>
                     </p>

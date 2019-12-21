@@ -176,6 +176,10 @@ textarea {
     vertical-align: middle;
 }
 
+.images .draw-item>img {
+    max-width: 50px;
+}
+
 #text-size {
     width: 4em;
     text-align: center;

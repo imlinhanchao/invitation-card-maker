@@ -26,7 +26,19 @@ String.prototype.format = function(args) {
 var configs = [
     {
         size: 600,
-        background: '/res/tp1.jpg',
+        images: [{
+            content: './res/tp1.jpg',
+            size: {
+                width: 600,
+            },
+            coord: {
+                x: 0,
+                y: 0
+            },
+            background: null,
+            variable: false,
+            resize: true
+        }],
         texts: [
             {
                 content: '诚邀 {0} ',
@@ -119,4 +131,8 @@ var configs = [
             [ '魏华', '19:00' ]
         ]
     }
-]
+];
+
+window.onload = function() {
+    app.refresh();
+}
