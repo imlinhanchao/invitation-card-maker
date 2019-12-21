@@ -168,7 +168,7 @@ textarea {
 
 .form-label {
     display: inline-block;
-    width: 6em;
+    width: 6.5em;
     font-weight: bold;
     line-height: 2em;
     text-align: right;
@@ -185,11 +185,11 @@ textarea {
     text-align: center;
 }
 
-.coord-label, .variable-label, .color-label {
+.top-label {
     vertical-align: top;
 }
 
-.text-coord, .qr-coord, .img-size {
+.form-number {
     width: 5em;
     text-align: center; 
 }
@@ -224,11 +224,12 @@ textarea {
     text-align: right;
 }
 
-.form-coord, .form-color {
+.form-block {
     display: inline-block;
+    max-width: calc(100% - 7em);
 }
 
-.text-color, .qr-color {
+.form-color {
    display: inline-block;
    width: 2em;
    height: 2em;

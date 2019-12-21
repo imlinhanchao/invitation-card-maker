@@ -30,6 +30,7 @@ var configs = [
             content: './res/tp1.jpg',
             size: {
                 width: 600,
+                height: 0
             },
             coord: {
                 x: 0,

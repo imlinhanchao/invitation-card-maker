@@ -13,6 +13,12 @@ var app = new Vue({
         currentTab: 0
     },
     watch: {
+        image: {
+            handler () {
+                this.refresh()
+            },
+            deep: true
+        },
         text: {
             handler () {
                 this.refresh()
@@ -59,6 +65,25 @@ var app = new Vue({
         image() {
             return this.images[this.currentImage];
         },
+        imageContent(){
+            return this.image.variable ? this.image.content.format.apply(this.image.content, (this.variables || [['']])[0]) : this.image.content;
+        },
+        imageWidth: {
+            get() {
+                return this.image.size.width > 0 ? this.image.size.width : 'auto'
+            },
+            set(val) {
+                this.image.size.width = parseInt(val);
+            }
+        },
+        imageHeight: {
+            get() {
+                return this.image.size.height > 0 ? this.image.size.height : 'auto'
+            },
+            set(val) {
+                this.image.size.height = parseInt(val);
+            }
+        },
         qrCode() {
             return this.qrCodes[this.currentQr];
         },
@@ -80,10 +105,11 @@ var app = new Vue({
         addImage() {
             this.images.push({
                 content: '',
-                size: { width: 0 }, 
+                size: { width: 0, height: 0 }, 
                 coord: { x: 0, y: 0 },
                 background: null,
-                variable: false
+                variable: false,
+                resize: false
             });
             this.currentImage = this.images.length - 1
         },
@@ -148,9 +174,13 @@ var app = new Vue({
                 }
             })
         },
+        uploadImg() {
+            this.$refs['img'].click();
+            return false;
+        },
         changeImg() {
             if(this.$refs['img'].files.length == 0) return
-            this.background = window.URL.createObjectURL(this.$refs['img'].files[0]);
+            this.image.content = window.URL.createObjectURL(this.$refs['img'].files[0]);
             this.refresh();
             this.$refs['img'].value = '';
         },
@@ -228,8 +258,8 @@ var app = new Vue({
                 var w = image.width;
                 var h = image.height;
 
-                if (size.height === undefined) radio = size.width / image.width
-                else if (size.width === undefined) radio = size.height / image.height
+                if (!parseInt(size.height || 0)) radio = size.width / image.width
+                else if (!parseInt(size.width || 0)) radio = size.height / image.height
                 else {
                     w = size.width;
                     h = size.height;
