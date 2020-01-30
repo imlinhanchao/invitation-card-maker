@@ -8,7 +8,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
     <link rel="icon" type="image/png" href="favicon.png">
     <script src="https://use.fontawesome.com/6364f396e2.js"></script>
-    <link href="https://fonts.loli.net/css?family=Kaushan+Script|Ma+Shan+Zheng|ZCOOL+XiaoWei|Noto+Sans+SC&display=swap" rel="stylesheet">
+    <link href="https://fonts.loli.net/css?family=Long+Cang|Kaushan+Script|Ma+Shan+Zheng|ZCOOL+XiaoWei|Noto+Sans+SC&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script src="js/qr.js"></script>
     <script src="js/common.js"></script>
@@ -26,13 +26,15 @@
             <section class="setting">
                 <div class="others">
                     <p>
-                        <label class="form-label" style="width: auto;" for="text-content">Size</label>
-                        <input type="number" ref="size" class="form-number" :value="size" @change="size=$refs['size'].value" @keyup.13="size=$refs['size'].value">                        
+                        <label class="form-label" style="width: auto;" for="size-content">Size</label>
+                        <input type="number" ref="size" id="size-content" class="form-number" :value="size" @change="size=$refs['size'].value" @keyup.13="size=$refs['size'].value">                        
                         <button class="btn" title="Download All Picture from Variable" @click="downloadAll"><i class="fa fa-download" aria-hidden="true"></i></button>
                         <button class="btn" @click="$refs['cfg'].click()" title="Import Config"><i class="fa fa-sign-in" aria-hidden="true"></i></button>
                         <button class="btn" title="Export Config" @click="exportConfig"><i class="fa fa-sign-out" aria-hidden="true"></i></button>
                         <button class="btn refresh-btn" title="Refresh Image" @click="refresh"><i class="fa fa-refresh" aria-hidden="true"></i></button class="btn" title="Export Config">
                         <button class="btn" title="Star Me from GitHub" @click="window.open('https://github.com/imlinhanchao/invitation-card-maker')"><i class="fa fa-github" aria-hidden="true"></i></button>
+                        <button class="btn big-size" title="Prev Template" @click="loadConfig(template - 1)"><i class="fa fa-caret-left" aria-hidden="true"></i></button>
+                        <button class="btn big-size" title="Next Template" @click="loadConfig(template + 1)"><i class="fa fa-caret-right" aria-hidden="true"></i></button>
                         <input type="file" style="width: 30%" ref="cfg" @change="changeConfig" v-show="false">
                     </p>
                 </div>
@@ -111,11 +113,11 @@
                     </p>
                     <form class="form" v-if="image">
                         <p>
-                            <label class="form-label top-label" for="text-content">Content</label>
+                            <label class="form-label top-label" for="image-content">Content</label>
                             <span class="form-block">
                                 <img :src="imageContent" alt="" style="width: 60%;max-width: 600px;">
                                 <br>
-                                <input type="text" id="text-content" v-model="image.content">
+                                <input type="text" id="image-content" v-model="image.content">
                                 <button class="btn" @click.prevent="uploadImg" title="Upload a new Picture"><i class="fa fa-picture-o" aria-hidden="true"></i></button>
                                 <input type="file" ref="img" @change="changeImg" v-show="false">
                             </span class="form-block">

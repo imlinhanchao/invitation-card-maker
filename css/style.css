@@ -239,6 +239,10 @@ textarea {
    border: 1px solid #000;
 }
 
+.big-size {
+    font-size: 2em;
+}
+
 @media (max-width: 800px) {
     header {
         font-size: 2em;

@@ -131,6 +131,128 @@ var configs = [
         variables: [
             [ '魏华', '19:00' ]
         ]
+    },
+    {
+        size: 600,
+        images: [
+            {
+                content: "./res/tp2.jpg",
+                size: {
+                    width: 0,
+                    height: 0
+                },
+                coord: {
+                    x: 0,
+                    y: 0
+                },
+                background: null,
+                variable: false,
+                resize: true
+            }
+        ],
+        texts: [
+            {
+                content: "{0} ",
+                font: "Ma Shan Zheng",
+                size: "60",
+                coord: {
+                    x: "360",
+                    y: "921"
+                },
+                color: "#223053",
+                align: "center",
+                variable: true
+            },
+            {
+                content: "李国强",
+                font: "Ma Shan Zheng",
+                size: "45",
+                coord: {
+                    x: "316",
+                    y: "800"
+                },
+                color: "#223053",
+                align: "right",
+                variable: false
+            },
+            {
+                content: "韩梅梅",
+                font: "Ma Shan Zheng",
+                size: "45",
+                coord: {
+                    x: "405",
+                    y: "800"
+                },
+                color: "#223053",
+                align: "left",
+                variable: false
+            },
+            {
+                content: "扫码查看位置与登记来访",
+                font: "Noto Sans SC",
+                size: 15,
+                coord: {
+                    x: "360",
+                    y: "1231"
+                },
+                color: "#867160",
+                align: "center",
+                variable: false
+            },
+            {
+                content: "2022年5月3号 12:00",
+                font: "Noto Sans SC",
+                size: "30",
+                coord: {
+                    x: "360",
+                    y: "1072"
+                },
+                color: "#202f52",
+                align: "center"
+            },
+            {
+                content: "黄金大酒店 9 楼贵宾厅",
+                font: "Noto Sans SC",
+                size: "30",
+                coord: {
+                    x: "360",
+                    y: "1032"
+                },
+                color: "#202f52",
+                align: "center",
+                variable: false
+            },
+            {
+                content: "&",
+                font: "PT Serif Caption",
+                size: "50",
+                coord: {
+                    x: "339",
+                    y: "798"
+                },
+                color: "#223053",
+                align: "left",
+                variable: false
+            }
+        ],
+        qrCodes: [
+            {
+                content: "http://marry.example.com/?n={0}&t={1}",
+                color: {
+                    foreground: "#202f52",
+                    background: "#f7f2ec"
+                },
+                size: "100",
+                coord: {
+                    x: "310",
+                    y: "1103"
+                },
+                variable: true
+            }
+        ],
+        variables: [
+            [ '魏华', '19:00' ]
+        ]
     }
 ];
 

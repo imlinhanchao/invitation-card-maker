@@ -10,7 +10,8 @@ var app = new Vue({
         currentImage: 0,
         currentText: 0,
         currentQr: 0,
-        currentTab: 0
+        currentTab: 0,
+        template: 0
     },
     watch: {
         image: {
@@ -154,9 +155,10 @@ var app = new Vue({
         exportConfig() {
             var config = {
                 size: this.size,
-                images: this.images.map(t => Object.assign({}, t)),
+                images: this.images.map(i => Object.assign({}, i)),
                 texts: this.texts.map(t => Object.assign({}, t)),
-                qrCodes: this.qrCodes.map(q => Object.assign({}, q))
+                qrCodes: this.qrCodes.map(q => Object.assign({}, q)),
+                variables: this.variables.map(v => Object.assign({}, v))
             }
             config.images.forEach((m, i) => {
                 if (m.variable) return;
@@ -193,7 +195,10 @@ var app = new Vue({
             reader.readAsText(this.$refs['cfg'].files[0]);
             this.$refs['cfg'].value = '';
         },
-        loadConfig(config) {
+        loadConfig(index) {
+            index = (index + configs.length) % configs.length;
+            config = configs[index];
+            this.template = index;
             this.size = config.size;
             this.images = config.images;
             this.texts = config.texts;
@@ -210,6 +215,10 @@ var app = new Vue({
         removeQr(i) {
             if(i == this.currentQr) this.currentQr = 0;
             this.qrCodes.splice(i, 1);
+        },
+        removeImage(i) {
+            if(i == this.currentImage) this.currentImage = 0;
+            this.images.splice(i, 1);
         },
         refresh() {
             this.draw(0);
@@ -318,6 +327,6 @@ var app = new Vue({
         }
     },
     mounted: function () {
-        this.loadConfig(configs[0]);
+        this.loadConfig(this.template);
     }
 });
