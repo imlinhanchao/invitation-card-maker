@@ -2,6 +2,7 @@ var app = new Vue({
     el: '#app',
     data: {
         size: 600,
+        cvsWidth: 600,
         cvsHeight: 600,
         images: [],
         texts: [],
@@ -122,6 +123,8 @@ var app = new Vue({
                 coord: { x: 0, y: 0 },
                 color: '#000',
                 align: 'left',
+                bold: false,
+                italic: false,
                 variable: false
             });
             this.currentText = this.texts.length - 1
@@ -282,6 +285,7 @@ var app = new Vue({
                 if (resize) {
                     this.cvs.width = w;
                     this.cvs.height = h;
+                    this.cvsWidth = w;
                     this.cvsHeight = h;
                 }
 
@@ -294,8 +298,8 @@ var app = new Vue({
                 if (call) call();
             }
         },
-        drawText({font='Noto Sans SC', content, size=20, coord={x:0,y:0}, color='#000', align='left'}) {
-            this.ctx.font = `${size}px "${font}"`;
+        drawText({font='Noto Sans SC', content, size=20, coord={x:0,y:0}, color='#000', align='left', bold=false, italic=false}) {
+            this.ctx.font = `${bold ? 'bold' : 'normal'} ${italic ? 'italic' : 'normal'} ${size}px "${font}"`;
             this.ctx.fillStyle = color;
             this.ctx.textAlign = align;
             this.ctx.fillText(content, coord.x, coord.y);
@@ -324,9 +328,21 @@ var app = new Vue({
             aLink.download = fileName;
             aLink.href = BlobUrl;
             aLink.click();
+        },
+        loadAllImage() {
+            configs.forEach(c => {
+                c.images.forEach(img => {
+                    let image = new Image();
+                    image.src = img.content;
+                    image.onload = () => {
+                        console.log(`${img.content} was loaded.`)
+                    }
+                })
+            })
         }
     },
     mounted: function () {
         this.loadConfig(this.template);
+        this.loadAllImage();
     }
 });

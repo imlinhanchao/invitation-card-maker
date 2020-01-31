@@ -8,7 +8,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
     <link rel="icon" type="image/png" href="favicon.png">
     <script src="https://use.fontawesome.com/6364f396e2.js"></script>
-    <link href="https://fonts.loli.net/css?family=Long+Cang|Kaushan+Script|Ma+Shan+Zheng|ZCOOL+XiaoWei|Noto+Sans+SC&display=swap" rel="stylesheet">
+    <link href="https://fonts.loli.net/css?family=Noto+Serif+TC|Long+Cang|Kaushan+Script|Ma+Shan+Zheng|ZCOOL+XiaoWei|Noto+Sans+SC&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script src="js/qr.js"></script>
     <script src="js/common.js"></script>
@@ -66,6 +66,8 @@
                             <label class="form-label" for="text-font">Font</label>
                             <input type="text" id="text-font" v-model="text.font"> 
                             <input type="number" id="text-size" v-model="text.size">
+                            <span class="font-style"><i :class="{current: text.bold}" class="fa fa-bold" aria-hidden="true" @click="text.bold = !text.bold"></i></span>
+                            <span class="font-style"><i :class="{current: text.italic}" class="fa fa-italic" aria-hidden="true" @click="text.italic = !text.italic"></i></span class="font-style">
                         </p>
                         <p>
                             <label class="form-label top-label" for="text-coord-x">Location</label>
@@ -76,7 +78,7 @@
                                     <i :class="{current: text.align == 'right'}"class="fa fa-align-right" aria-hidden="true" @click="text.align = 'right'"></i>
                                 </span>
                                 <label for="text-coord-x">X</label>
-                                <input type="range" v-model="text.coord.x" min="0" :max="size">
+                                <input type="range" v-model="text.coord.x" min="0" :max="cvsWidth">
                                 <input type="number" class="form-number" id="text-coord-x" v-model="text.coord.x">
                                 <br>
                                 <label for="text-coord-y">Y</label>
@@ -190,7 +192,7 @@
                             <label class="form-label top-label" for="qr-coord-x">Location</label>
                             <span class="form-block">
                                 <label for="qr-coord-x">X</label>
-                                <input type="range" v-model="qrCode.coord.x" min="0" :max="size">
+                                <input type="range" v-model="qrCode.coord.x" min="0" :max="cvsWidth">
                                 <input type="number" class="form-number" id="qr-coord-x" v-model="qrCode.coord.x">
                                 <br>
                                 <label for="qr-coord-y">Y</label>

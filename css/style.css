@@ -243,6 +243,17 @@ textarea {
     font-size: 2em;
 }
 
+.font-style {
+    display: inline-block;
+    width: 1.5em;
+    text-align: center;
+    color: #CDCECF;
+    cursor: pointer;
+}
+.font-style i.current {
+    color: #000;
+}
+
 @media (max-width: 800px) {
     header {
         font-size: 2em;
@@ -253,4 +264,14 @@ textarea {
     .content>section {
         padding: .5em;
     }
+     
+}
+
+@font-face {
+    font-family:"字体管家版宋";
+    src:url("../res/字体管家版宋2.woff2") format('woff2'),
+        url("../res/字体管家版宋2.woff") format('woff'),
+        url("../res/字体管家版宋.ttf") format('truetype');
+    font-weight:normal;
+    font-style:normal;
 }
