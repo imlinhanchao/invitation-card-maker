@@ -198,10 +198,13 @@ var app = new Vue({
             reader.readAsText(this.$refs['cfg'].files[0]);
             this.$refs['cfg'].value = '';
         },
-        loadConfig(index) {
+        loadConfigIndex(index) {
             index = (index + configs.length) % configs.length;
             config = configs[index];
             this.template = index;
+            this.loadConfig(config);
+        },
+        loadConfig(config) {
             this.size = config.size;
             this.images = config.images;
             this.texts = config.texts;
@@ -299,7 +302,7 @@ var app = new Vue({
             }
         },
         drawText({font='Noto Sans SC', content, size=20, coord={x:0,y:0}, color='#000', align='left', bold=false, italic=false}) {
-            this.ctx.font = `${bold ? 'bold' : 'normal'} ${italic ? 'italic' : 'normal'} ${size}px "${font}"`;
+            this.ctx.font = `${bold ? 'bold' : 'normal'} ${italic ? 'italic' : 'normal'} ${size}px ${font}`;
             this.ctx.fillStyle = color;
             this.ctx.textAlign = align;
             this.ctx.fillText(content, coord.x, coord.y);
@@ -342,7 +345,7 @@ var app = new Vue({
         }
     },
     mounted: function () {
-        this.loadConfig(this.template);
+        this.loadConfigIndex(this.template);
         this.loadAllImage();
     }
 });

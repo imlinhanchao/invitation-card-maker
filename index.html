@@ -33,8 +33,8 @@
                         <button class="btn" title="Export Config" @click="exportConfig"><i class="fa fa-sign-out" aria-hidden="true"></i></button>
                         <button class="btn refresh-btn" title="Refresh Image" @click="refresh"><i class="fa fa-refresh" aria-hidden="true"></i></button class="btn" title="Export Config">
                         <button class="btn" title="Star Me from GitHub" @click="window.open('https://github.com/imlinhanchao/invitation-card-maker')"><i class="fa fa-github" aria-hidden="true"></i></button>
-                        <button class="btn big-size" title="Prev Template" @click="loadConfig(template - 1)"><i class="fa fa-caret-left" aria-hidden="true"></i></button>
-                        <button class="btn big-size" title="Next Template" @click="loadConfig(template + 1)"><i class="fa fa-caret-right" aria-hidden="true"></i></button>
+                        <button class="btn big-size" title="Prev Template" @click="loadConfigIndex(template - 1)"><i class="fa fa-caret-left" aria-hidden="true"></i></button>
+                        <button class="btn big-size" title="Next Template" @click="loadConfigIndex(template + 1)"><i class="fa fa-caret-right" aria-hidden="true"></i></button>
                         <input type="file" style="width: 30%" ref="cfg" @change="changeConfig" v-show="false">
                     </p>
                 </div>
