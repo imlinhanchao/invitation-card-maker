@@ -161,7 +161,7 @@ var app = new Vue({
                 images: this.images.map(i => Object.assign({}, i)),
                 texts: this.texts.map(t => Object.assign({}, t)),
                 qrCodes: this.qrCodes.map(q => Object.assign({}, q)),
-                variables: this.variables.map(v => Object.assign({}, v))
+                variables: this.variables
             }
             config.images.forEach((m, i) => {
                 if (m.variable) return;
